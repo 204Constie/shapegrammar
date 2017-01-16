@@ -4,6 +4,7 @@
 var x = 30;
 var y = 30;
 var r = 15;
+//var s = 1;
 
 var shapesData = [{'x': x, 'y': y, 'r': r, 'color': '#fff176'}];
 var colorData = ['#ffeb3b', '#fffde7', '#fff9c4', '#fff59d', '#fff176', '#ffee58', '#ffeb3b',
@@ -68,10 +69,29 @@ function genPosition(e){
 
 };
 
+function genRadius(e){
+	var rand = Math.floor((Math.random() * 4) + 1);
+	switch(rand){
+		case 1:
+			r = e.r * 1.1;
+			break;
+		case 2:
+			r = e.r * 1.2;
+			break;
+		case 3:
+			r = e.r * 0.9;
+			break;
+		case 4:
+			r = e.r * 0.8;
+			break;
+	}
+};
+
 function clickEvent(e){
 
 	var randColor = Math.floor((Math.random() * 13) + 1) - 1;
 
+	genRadius(e);
 	var status = genPosition(e);
 
 	if(status){
@@ -91,6 +111,7 @@ function update(){
 	var shapeAttributes = shapes.attr('cx', function(d){ return d.x; })
 								.attr('cy', function(d){ return d.y; })
 								.attr('r', function(d){ return d.r; })
+								//.attr('transform', function(d){ return 'scale(' + d.s + ')'; })
 								.attr('fill', function(d){ return d.color; })
 								.on('click', clickEvent);
 };

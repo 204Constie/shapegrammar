@@ -5,9 +5,9 @@ var x = 30;
 var y = 30;
 var r = 15;
 
-var path = [];
+var direction = 1;
 
-var copulate = false;
+var grammars = [];
 
 var shapesData = [];
 shapesData[0] = [{'x': x, 'y': y, 'r': r, 'color': '#fff176'}];
@@ -32,9 +32,7 @@ function checkxy(elx, ely, i){
 };
 
 function genPosition(e, i){
-var rand = Math.floor((Math.random() * 4) + 1);
-path.push(rand);
-if(rand === 1){
+if(direction === 1){
 	if(checkxy(e.x + 2*r, e.y, i)){
 		if(checkxy(e.x, e.y + 2*r, i)){
 			if(checkxy(e.x - 2*r, e.y, i)){
@@ -76,7 +74,7 @@ if(rand === 1){
 			return false;
 		}
 	}
-} else if(rand === 2){
+} else if(direction === 2){
 
 	if(checkxy(e.x, e.y + 2*r, i)){
 		if(checkxy(e.x + 2*r, e.y, i)){
@@ -119,7 +117,7 @@ if(rand === 1){
 				return false;
 			}
 	}
-} else if(rand === 3){
+} else if(direction === 3){
 
 	if(checkxy(e.x - 2*r, e.y, i)){
 		if(checkxy(e.x, e.y + 2*r, i)){
@@ -207,184 +205,6 @@ if(rand === 1){
 }
 
 };
-
-
-function genPositionbyPath(e, i, j, path){
-var rand = path[j];
-if(rand === 1){
-	if(checkxy(e.x + 2*r, e.y, i)){
-		if(checkxy(e.x, e.y + 2*r, i)){
-			if(checkxy(e.x - 2*r, e.y, i)){
-				if(checkxy(e.x, e.y - 2*r, i)){
-					return false;
-				} else {
-					if(e.y - 2*r >0 && e.y - 2*r < height){
-						y = e.y - 2*r;
-						x = e.x;
-						return true;
-					} else {
-						return false;
-					}
-				}
-			} else {
-				if(e.x - 2*r > 0 && e.x - 2*r < width){
-					x = e.x - 2*r;
-					y = e.y;
-					return true;
-				} else {
-					return false;
-				}
-			}
-		} else {
-			if(e.y + 2*r > 0 && e.y + 2*r < height){
-				y = e.y + 2*r;
-				x = e.x;
-				return true;
-			} else {
-				return false;
-			}
-		}
-	} else {
-		if(e.x + 2*r > 0 && e.x + 2*r < width){
-			x = e.x + 2*r;
-			y = e.y;
-			return true;
-		} else {
-			return false;
-		}
-	}
-} else if(rand === 2){
-
-	if(checkxy(e.x, e.y + 2*r, i)){
-		if(checkxy(e.x + 2*r, e.y, i)){
-			if(checkxy(e.x - 2*r, e.y, i)){
-				if(checkxy(e.x, e.y - 2*r, i)){
-					return false;
-				} else {
-					if(e.y - 2*r >0 && e.y - 2*r < height){
-						y = e.y - 2*r;
-						x = e.x;
-						return true;
-					} else {
-						return false;
-					}
-				}
-			} else {
-				if(e.x - 2*r > 0 && e.x - 2*r < width){
-					x = e.x - 2*r;
-					y = e.y;
-					return true;
-				} else {
-					return false;
-				}
-			}
-		} else {
-			if(e.x + 2*r > 0 && e.x + 2*r < width){
-				x = e.x + 2*r;
-				y = e.y;
-				return true;
-			} else {
-				return false;
-			}
-		}
-	} else {
-		if(e.y + 2*r > 0 && e.y + 2*r < height){
-				y = e.y + 2*r;
-				x = e.x;
-				return true;
-			} else {
-				return false;
-			}
-	}
-} else if(rand === 3){
-
-	if(checkxy(e.x - 2*r, e.y, i)){
-		if(checkxy(e.x, e.y + 2*r, i)){
-			if(checkxy(e.x + 2*r, e.y, i)){
-				if(checkxy(e.x, e.y - 2*r, i)){
-					return false;
-				} else {
-					if(e.y - 2*r >0 && e.y - 2*r < height){
-						y = e.y - 2*r;
-						x = e.x;
-						return true;
-					} else {
-						return false;
-					}
-				}
-			} else {
-				if(e.x + 2*r > 0 && e.x + 2*r < width){
-					x = e.x + 2*r;
-					y = e.y;
-					return true;
-				} else {
-					return false;
-				}
-			}
-		} else {
-			if(e.y + 2*r > 0 && e.y + 2*r < height){
-				y = e.y + 2*r;
-				x = e.x;
-				return true;
-			} else {
-				return false;
-			}
-		}
-	} else {
-		if(e.x - 2*r > 0 && e.x - 2*r < width){
-			x = e.x - 2*r;
-			y = e.y;
-			return true;
-		} else {
-			return false;
-		}
-	}
-} else {
-	if(checkxy(e.x, e.y - 2*r, i)){
-		if(checkxy(e.x, e.y + 2*r, i)){
-			if(checkxy(e.x - 2*r, e.y, i)){
-				if(checkxy(e.x + 2*r, e.y, i)){
-					return false;
-				} else {
-					if(e.x + 2*r > 0 && e.x + 2*r < width){
-						x = e.x + 2*r;
-						y = e.y;
-						return true;
-					} else {
-						return false;
-					}
-				}
-			} else {
-				if(e.x - 2*r > 0 && e.x - 2*r < width){
-					x = e.x - 2*r;
-					y = e.y;
-					return true;
-				} else {
-					return false;
-				}
-			}
-		} else {
-			if(e.y + 2*r > 0 && e.y + 2*r < height){
-				y = e.y + 2*r;
-				x = e.x;
-				return true;
-			} else {
-				return false;
-			}
-		}
-	} else {
-		if(e.y - 2*r >0 && e.y - 2*r < height){
-			y = e.y - 2*r;
-			x = e.x;
-			return true;
-		} else {
-			return false;
-		}
-	}
-}
-
-};
-
 
 function alterRadius(i, j){
 	var rand = Math.floor((Math.random() * 4) + 1);
@@ -428,9 +248,9 @@ function beautyCheck(i){
 };
 
 function appendPath(i){
-	shapesData[i][0].path = [];
-	for(var z=path.length - 1; z>path.length - 16; z--){
-		shapesData[i][0].path.push(path[z]);
+	shapesData[i].path = [];
+	for(var z=grammar.length - 1; z>grammar.length - 16; z--){
+		shapesData[i].path.push(grammar[z]);
 	}
 };
 
@@ -440,19 +260,14 @@ function iterateShapes(i, j){
 
 	var e = shapeMemory(i, j);
 	alterRadius(i, j);
-	if(copulate){
-		var status = genPositionbyPath(e, i, j, shapesData[i][0].path);
-	} else {
-		var status = genPosition(e, i);
-	}
+	var status = genPosition(e, i);
+
 
 	if(status){
 		shapesData[i].push({'x': x, 'y': y, 'r': r, 'color': colorData[randColor]});
 		if(j === 14){
 			beautyCheck(i);
-			//?if(!copulate){
 			appendPath(i);
-			//?}
 			update(i);
 		}
 	} else {
@@ -486,7 +301,6 @@ function update(i){
 update(0);
 
 var d = [];
-var m = [];
 for(var i=0; i<15; i++){
 	if(i !== 0){
 		shapesData[i] = [{'x': x, 'y': y, 'r': r, 'color': '#fff176'}];
@@ -495,15 +309,28 @@ for(var i=0; i<15; i++){
 		iterateShapes(i, j);
 	}
 	d.push(shapesData[i][0].beautyRate);
-	m.push(shapesData[i][0].path);
 }
 
 console.log('beautyRate: ', d);
 
-console.log('path: ', m);
+$('#left').click(function(){
+	direction = 3;
+});
+
+$('#up').click(function(){
+	direction = 4;
+});
+
+$('#right').click(function(){
+	direction = 1;
+});
+
+$('#down').click(function(){
+	direction = 2;
+});
 
 $('#copulate').click(function(){
-	copulate = true;
+
 });
 
 })(document, window);

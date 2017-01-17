@@ -231,6 +231,19 @@ function shapeMemory(i, j){
 	return tmp;
 };
 
+function beautyCheck(i){
+	var xValue = 0;
+	var yValue = 0;
+	var len = shapesData[i].length;
+	//shapesData[i] // all the elements of a shape
+	for(var j=0; j<len; j++){
+		xValue += Math.abs((width/2) - shapesData[i][j].x);
+		yValue += Math.abs((height/2) - shapesData[i][j].y);
+	}
+
+	shapesData[i][0].beautyRate = ((100*(xValue/len))/150 + (100*(yValue/len))/150)/2;
+};
+
 function iterateShapes(i, j){
 
 	var randColor = Math.floor((Math.random() * 13) + 1) - 1;
@@ -239,14 +252,17 @@ function iterateShapes(i, j){
 	alterRadius(i, j);
 	var status = genPosition(e, i);
 
+
 	if(status){
 		shapesData[i].push({'x': x, 'y': y, 'r': r, 'color': colorData[randColor]});
 		if(j === 14){
+			beautyCheck(i);
 			update(i);
 		}
 	} else {
 		shapesData[i].push({'x': e.x, 'y': e.y, 'r': e.r, 'color': colorData[randColor]});
 		if(j === 14){
+			beautyCheck(i);
 			update(i);
 		}
 	}
@@ -258,7 +274,7 @@ function update(i){
 									.attr('width', width)
 									.attr('height', height);
 	}
-	
+
 	var shapes = svgContainer[i].selectAll('circle')
 							.data(shapesData[i])
 							.enter()
@@ -272,29 +288,18 @@ function update(i){
 
 update(0);
 
-for(var i=0; i<5; i++){
+var d = [];
+for(var i=0; i<15; i++){
 	if(i !== 0){
 		shapesData[i] = [{'x': x, 'y': y, 'r': r, 'color': '#fff176'}];
 	}
-	for(var j=0; j<15; j++){
+	for(var j=0; j<30; j++){
 		iterateShapes(i, j);
 	}
+	d.push(shapesData[i][0].beautyRate);
 }
 
-console.log('shapesData: ', shapesData);
-console.log('svgContainer: ', svgContainer)
-// $('#shapedone').click(function(){
-// svgContainerTwo = d3.select('body').append('svg')
-// 								.attr('width', 300)
-// 								.attr('height', 300);
-
-// updateTwo();
-
-// for(var i=0; i<50; i++){
-// 	iterateShapesTwo(i);
-// }
-
-// });
+console.log('beautyRate: ', d);
 
 $('#copulate').click(function(){
 

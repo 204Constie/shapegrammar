@@ -4,34 +4,39 @@
 var x = 30;
 var y = 30;
 var r = 15;
-var iter = 0;
 
-var shapesData = [{'x': x, 'y': y, 'r': r, 'color': '#fff176'}];
+var shapesData = [];
+shapesData[0] = [{'x': x, 'y': y, 'r': r, 'color': '#fff176'}];
 var colorData = ['#ffeb3b', '#fffde7', '#fff9c4', '#fff59d', '#fff176', '#ffee58', '#ffeb3b',
 				'#c0ca33', '#afb42b', '#9e9d24', '#827717', '#c6ff00', '#aeaa00'];
 
-var svgContainer = d3.select('body').append('svg')
-									.attr('width', 700)
-									.attr('height', 700);
+var width = 300;
+var height = 300;
+var svgContainer = [];
+svgContainer[0] = d3.select('body').append('svg')
+									.attr('width', width)
+									.attr('height', height);
 
-function checkxy(elx, ely){
-	for(var i=0; i<shapesData.length; i++){
-		if(elx === shapesData[i].x && ely === shapesData[i].y){
-			console.log('true');
+function checkxy(elx, ely, i){
+	for(var j=0; j<shapesData[i].length; j++){
+		if(elx === shapesData[i][j].x && ely === shapesData[i][j].y){
 			return true;
 		}
 	}
+
 	return false;
 };
 
-function genPosition(e){
-	if(checkxy(e.x + 2*r, e.y)){
-		if(checkxy(e.x, e.y + 2*r)){
-			if(checkxy(e.x - 2*r, e.y)){
-				if(checkxy(e.x, e.y - 2*r)){
+function genPosition(e, i){
+var rand = Math.floor((Math.random() * 4) + 1);
+if(rand === 1){
+	if(checkxy(e.x + 2*r, e.y, i)){
+		if(checkxy(e.x, e.y + 2*r, i)){
+			if(checkxy(e.x - 2*r, e.y, i)){
+				if(checkxy(e.x, e.y - 2*r, i)){
 					return false;
 				} else {
-					if(e.y - 2*r >0 && e.y - 2*r < 700){
+					if(e.y - 2*r >0 && e.y - 2*r < height){
 						y = e.y - 2*r;
 						x = e.x;
 						return true;
@@ -40,7 +45,7 @@ function genPosition(e){
 					}
 				}
 			} else {
-				if(e.x - 2*r > 0 && e.x - 2*r < 700){
+				if(e.x - 2*r > 0 && e.x - 2*r < width){
 					x = e.x - 2*r;
 					y = e.y;
 					return true;
@@ -49,7 +54,7 @@ function genPosition(e){
 				}
 			}
 		} else {
-			if(e.y + 2*r > 0 && e.y + 2*r < 700){
+			if(e.y + 2*r > 0 && e.y + 2*r < height){
 				y = e.y + 2*r;
 				x = e.x;
 				return true;
@@ -58,7 +63,7 @@ function genPosition(e){
 			}
 		}
 	} else {
-		if(e.x + 2*r > 0 && e.x + 2*r < 700){
+		if(e.x + 2*r > 0 && e.x + 2*r < width){
 			x = e.x + 2*r;
 			y = e.y;
 			return true;
@@ -66,135 +71,233 @@ function genPosition(e){
 			return false;
 		}
 	}
+} else if(rand === 2){
+
+	if(checkxy(e.x, e.y + 2*r, i)){
+		if(checkxy(e.x + 2*r, e.y, i)){
+			if(checkxy(e.x - 2*r, e.y, i)){
+				if(checkxy(e.x, e.y - 2*r, i)){
+					return false;
+				} else {
+					if(e.y - 2*r >0 && e.y - 2*r < height){
+						y = e.y - 2*r;
+						x = e.x;
+						return true;
+					} else {
+						return false;
+					}
+				}
+			} else {
+				if(e.x - 2*r > 0 && e.x - 2*r < width){
+					x = e.x - 2*r;
+					y = e.y;
+					return true;
+				} else {
+					return false;
+				}
+			}
+		} else {
+			if(e.x + 2*r > 0 && e.x + 2*r < width){
+				x = e.x + 2*r;
+				y = e.y;
+				return true;
+			} else {
+				return false;
+			}
+		}
+	} else {
+		if(e.y + 2*r > 0 && e.y + 2*r < height){
+				y = e.y + 2*r;
+				x = e.x;
+				return true;
+			} else {
+				return false;
+			}
+	}
+} else if(rand === 3){
+
+	if(checkxy(e.x - 2*r, e.y, i)){
+		if(checkxy(e.x, e.y + 2*r, i)){
+			if(checkxy(e.x + 2*r, e.y, i)){
+				if(checkxy(e.x, e.y - 2*r, i)){
+					return false;
+				} else {
+					if(e.y - 2*r >0 && e.y - 2*r < height){
+						y = e.y - 2*r;
+						x = e.x;
+						return true;
+					} else {
+						return false;
+					}
+				}
+			} else {
+				if(e.x + 2*r > 0 && e.x + 2*r < width){
+					x = e.x + 2*r;
+					y = e.y;
+					return true;
+				} else {
+					return false;
+				}
+			}
+		} else {
+			if(e.y + 2*r > 0 && e.y + 2*r < height){
+				y = e.y + 2*r;
+				x = e.x;
+				return true;
+			} else {
+				return false;
+			}
+		}
+	} else {
+		if(e.x - 2*r > 0 && e.x - 2*r < width){
+			x = e.x - 2*r;
+			y = e.y;
+			return true;
+		} else {
+			return false;
+		}
+	}
+} else {
+	if(checkxy(e.x, e.y - 2*r, i)){
+		if(checkxy(e.x, e.y + 2*r, i)){
+			if(checkxy(e.x - 2*r, e.y, i)){
+				if(checkxy(e.x + 2*r, e.y, i)){
+					return false;
+				} else {
+					if(e.x + 2*r > 0 && e.x + 2*r < width){
+						x = e.x + 2*r;
+						y = e.y;
+						return true;
+					} else {
+						return false;
+					}
+				}
+			} else {
+				if(e.x - 2*r > 0 && e.x - 2*r < width){
+					x = e.x - 2*r;
+					y = e.y;
+					return true;
+				} else {
+					return false;
+				}
+			}
+		} else {
+			if(e.y + 2*r > 0 && e.y + 2*r < height){
+				y = e.y + 2*r;
+				x = e.x;
+				return true;
+			} else {
+				return false;
+			}
+		}
+	} else {
+		if(e.y - 2*r >0 && e.y - 2*r < height){
+			y = e.y - 2*r;
+			x = e.x;
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
 
 };
 
-function genRadius(e){
+function alterRadius(i, j){
 	var rand = Math.floor((Math.random() * 4) + 1);
 	switch(rand){
 		case 1:
-			r = e.r * 1.1;
+			shapesData[i][j].r *= 1.1;
 			break;
 		case 2:
-			r = e.r * 1.2;
+			shapesData[i][j].r *= 1.2;
 			break;
 		case 3:
-			r = e.r * 0.9;
+			shapesData[i][j].r *= 0.9;
 			break;
 		case 4:
-			r = e.r * 0.8;
+			shapesData[i][j].r *= 0.8;
 			break;
 	}
 };
 
+function shapeMemory(i, j){
+	var tmp = {};
 
-function swap(array, firstID, secondID){
-			var tmp = array[firstID];
-			array[firstID] = array[secondID];
-			array[secondID] = tmp;
-		};
+	tmp.x = shapesData[i][j].x;
+	tmp.y = shapesData[i][j].y;
+	tmp.r = shapesData[i][j].r;
 
-function indexOfMin(array, startID){
-			var minValue = array[startID];
-			var minID = startID;
-
-			for(var i=minID+1; i<array.length; i++){
-				if(array[i]<minValue){
-					minID = i;
-					minValue = array[i];
-				}
-			}
-			return minID;
-		};
-
-
-function realSort(array){
-				var tmpID;
-				for(var j=0; j<array.length; j++){
-					tmpID = indexOfMin(array, j);
-					swap(array, tmpID, j);
-				}
-				return array;
-			};
-
-
-
-function sortElements(array){
-	var tmp = [];
-	var bigTmp = [];
-
-	for(var j=0; j<array.length; j++){
-		tmp.push(array[j].r);
-	}
-
-	tmp = realSort(tmp);
-	for(var k=0; k<tmp.length; k++){
-		for(var z=0; z<array.length; z++){
-			if(tmp[k] === array[z].r){
-				console.log('pipa');
-				bigTmp.push(array[z]);
-			}
-		}
-	}
-
-	return bigTmp;
+	return tmp;
 };
 
-function beautyCheck(){
-	var tmp = [];
-	for(var i=shapesData.length-1; i>shapesData.length - 10; i--){
-		tmp.push(shapesData[i]);
-	}
-
-	console.log('tmp: ', tmp);
-	tmp = sortElements(tmp);
-	console.log('jcsja: ', tmp.splice(4, 5));
-
-	tmp.splice(4, 5);
-
-	shapesData.splice(shapesData.length - 11, 10);
-	for(var p=0; p<tmp.length; p++){
-		shapesData.push(tmp[p]);
-	}
-	console.log('shapesData: ', shapesData);
-	update();
-};
-
-function clickEvent(e){
+function iterateShapes(i, j){
 
 	var randColor = Math.floor((Math.random() * 13) + 1) - 1;
 
-	genRadius(e);
-	var status = genPosition(e);
+	var e = shapeMemory(i, j);
+	alterRadius(i, j);
+	var status = genPosition(e, i);
 
 	if(status){
-		shapesData.push({'x': x, 'y': y, 'r': r, 'color': colorData[randColor]});
-		if(iter !== 10){
-			iter++;
-			update();
-		} else {
-			beautyCheck();
-			iter = 0;
+		shapesData[i].push({'x': x, 'y': y, 'r': r, 'color': colorData[randColor]});
+		if(j === 14){
+			update(i);
 		}
 	} else {
-		update();
+		shapesData[i].push({'x': e.x, 'y': e.y, 'r': e.r, 'color': colorData[randColor]});
+		if(j === 14){
+			update(i);
+		}
 	}
 };
 
-function update(){
-	var shapes = svgContainer.selectAll('circle')
-							.data(shapesData)
+function update(i){
+	if(i !== 0){
+		svgContainer[i] = d3.select('body').append('svg')
+									.attr('width', width)
+									.attr('height', height);
+	}
+	
+	var shapes = svgContainer[i].selectAll('circle')
+							.data(shapesData[i])
 							.enter()
 							.append('circle');
 
 	var shapeAttributes = shapes.attr('cx', function(d){ return d.x; })
 								.attr('cy', function(d){ return d.y; })
 								.attr('r', function(d){ return d.r; })
-								.attr('fill', function(d){ return d.color; })
-								.on('click', clickEvent);
+								.attr('fill', function(d){ return d.color; });
 };
 
-update();
+update(0);
 
+for(var i=0; i<5; i++){
+	if(i !== 0){
+		shapesData[i] = [{'x': x, 'y': y, 'r': r, 'color': '#fff176'}];
+	}
+	for(var j=0; j<15; j++){
+		iterateShapes(i, j);
+	}
+}
+
+console.log('shapesData: ', shapesData);
+console.log('svgContainer: ', svgContainer)
+// $('#shapedone').click(function(){
+// svgContainerTwo = d3.select('body').append('svg')
+// 								.attr('width', 300)
+// 								.attr('height', 300);
+
+// updateTwo();
+
+// for(var i=0; i<50; i++){
+// 	iterateShapesTwo(i);
+// }
+
+// });
+
+$('#copulate').click(function(){
+
+});
 
 })(document, window);
